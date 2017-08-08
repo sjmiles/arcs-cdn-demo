@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <title>Arcs: Demo Demo</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      background-image: url(assets/linen.png);
+    }
+    demo-frame {
+      flex: 1;
+      max-width: 414px;
+      max-height: 736px;
+      background-color: white;
+    }
+    demo-frame {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    #particle-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      margin-bottom: 25px;
+      overflow: auto;
+      overflow-x: hidden;
+    }
+    #particle-container > * {
+      flex: 1;
+    }
+  </style>
+
+  <!-- Arcs engine -->
+  <script src="//localhost/projects/arcs/arcs/runtime/browser/build/cdn/ArcsLib.js"></script>
+
+  <!-- demo helpers -->
+  <script src="recipes.js"></script>
+  <script src="data-context.js"></script>
+  <script src="utils.js"></script>
+
+  <!-- custom elements -->
+  <script src="lib/x-toast.js"></script>
+  <script src="lib/suggestions-element.js"></script>
+
+</head>
+<body>
+
+  <demo-frame>
+    <div id="particle-container"></div>
+    <suggestions-element></suggestions-element>
+  </demo-frame>
+
+  <script>
+    //
+    // 1. Setup URL mapping
+    //
+    // default URL map
+    let root = `https://sjmiles.github.io/arcs-cdn`;
+    let map = utils.createUrlMap(root);
+    // URL overrides
+    let localRoot = `http://localhost/projects/arcs/arcs`;
+    let localCdn = `http://localhost/projects/arcs/arcs/runtime/browser/build/cdn/`;
+    Object.assign(map, {
+      'worker-entry-cdn.js': `${localCdn}/worker-entry-cdn.js`,
+      '../particles/Chooser': `${localRoot}/particles/Chooser`
+    });
+    //
+    // Step 2: create system objects
+    //
+    // rendering system
+    let slotComposer = new Arcs.SlotComposer(window['particle-container']);
+    // suggestion engine
+    let suggestinator = new Arcs.Suggestinator();
+    // an Arc!
+    let arc = Arcs.createArc({id: 'demo', urlMap: map, slotComposer});
+    //
+    // Step 3: setup your app
+    //
+    // setup the database
+    prepareDataContext(arc/*, loader*/);
+    // configure suggestions UI
+    let suggestions = document.querySelector('suggestions-element');
+    suggestions.arc = arc;
+    suggestions.callback = () => {};
+    // feed suggestions UI
+    utils.suggest(arc, suggestinator, suggestions, recipes);
+  </script>
+
+</body>
+</html>
