@@ -3,9 +3,10 @@ let utils = {
   createUrlMap: cdnRoot => {
     return {
       '../entities': `${cdnRoot}/entities`,
-      '../particles': `${cdnRoot}/particles`,
+      'particles': `${cdnRoot}/particles`,
       'assets': `${cdnRoot}/assets`,
       '../assets': `${cdnRoot}/assets`,
+      // TODO(sjmiles): map must always contain (explicitly, no prefixing) a mapping for `worker-entry-cdn.js`
       'worker-entry-cdn.js': `${cdnRoot}/worker-entry-cdn.js`
     };
   },

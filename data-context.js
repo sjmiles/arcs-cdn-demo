@@ -44,14 +44,16 @@ let db = {
   ]
 };
 
-let prepareDataContext = arc => {
+let prepareDataContext = (arc, manifest) => {
   // uber arc
   let loader = arc._loader;
   let pageArc = arc;
   //let pageArc = new Arcs.Arc({loader, id: 'pageArc'});
   // bootstrap data context
-  let Person = loader.loadEntity('Person');
-  let Product = loader.loadEntity('Product');
+  let Person = manifest.findSchemaByName('Person').entityClass();
+  let Product = manifest.findSchemaByName('Product').entityClass();
+  //let Person = loader.loadEntity('Person');
+  //let Product = loader.loadEntity('Product');
   // TODO(sjmiles): empirically, views must exist before committing Entities
   let personView = pageArc.createView(Person.type.viewOf(), 'peopleFromWebpage');
   let productView = pageArc.createView(Product.type.viewOf(), 'productsFromWebpage');
