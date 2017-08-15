@@ -5,11 +5,14 @@
 # subject to an additional IP rights grant found at
 # http://polymer.github.io/PATENTS.txt
 
-import '/projects/arcs/arcs/particles/ShowProducts/ShowProducts.manifest'
-import '/projects/arcs/arcs/particles/Recommend/Recommend.manifest'
-import '/projects/arcs/arcs/particles/Chooser/Chooser.manifest'
-import '/projects/arcs/arcs/particles/AlsoOn/AlsoOn.manifest'
-import '/projects/arcs/arcs/particles/GiftList/GiftList.manifest'
-import '/projects/arcs/arcs/particles/Arrivinator/Arrivinator.manifest'
-import '/projects/arcs/arcs/particles/ManufacturerInfo/ManufacturerInfo.manifest'
-import '/projects/arcs/arcs/particles/Interests/Interests.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/ShowProducts/ShowProducts.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/Recommend/Recommend.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/Chooser/Chooser.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/AlsoOn/AlsoOn.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/GiftList/GiftList.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/Arrivinator/Arrivinator.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/ManufacturerInfo/ManufacturerInfo.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/Interests/Interests.manifest'
+
+recipe
+   ShowProducts

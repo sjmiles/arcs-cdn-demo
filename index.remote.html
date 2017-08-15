@@ -10,14 +10,14 @@
   <link rel="stylesheet" href="index.css">
 
   <!-- Arcs engine -->
-  <script src="//localhost/projects/arcs/arcs/runtime/browser/build/cdn/ArcsLib.js"></script>
+  <script src="https://sjmiles.github.io/arcs-cdn/v0.01/ArcsLib.js"></script>
 
   <!-- demo helpers -->
   <script src="utils.js"></script>
 
   <!-- custom elements -->
-  <script src="//localhost/projects/arcs/arcs-cdn/v0.01/components/x-toast.js"></script>
-  <script src="//localhost/projects/arcs/arcs-cdn/v0.01/components/suggestions-element.js"></script>
+  <script src="https://sjmiles.github.io/arcs-cdn/v0.01/components/x-toast.js"></script>
+  <script src="https://sjmiles.github.io/arcs-cdn/v0.01/components/suggestions-element.js"></script>
 
   <!-- app-specific configuration -->
   <script src="configure.js"></script>
@@ -36,14 +36,10 @@
       // 1. URL mapping
       //
       // setup default map
-      let root = `http://localhost/projects/arcs/arcs`;
+      let root = `https://sjmiles.github.io/arcs-cdn/v0.01`;
       let map = utils.createUrlMap(root);
       // overrides
-      let browser = `${root}/runtime/browser/`;
       Object.assign(map, {
-        'worker-entry-cdn.js': `${browser}/build/cdn/worker-entry-cdn.js`,
-        'assets': `${browser}/assets`,
-        //'../assets': `${browser}/assets`,
       });
 
       //
@@ -58,7 +54,7 @@
       // Step 3: configure application
       //
       // load manifest
-      let manifest = await Arcs.Manifest.load('./local.manifest', arc._loader);
+      let manifest = await Arcs.Manifest.load('./remote.manifest', arc._loader);
       // setup the database
       utils.prepareDataContext(window.db, arc, manifest);
       // configure suggestions UI
