@@ -2,33 +2,39 @@
 let utils = {
   createUrlMap: cdnRoot => {
     return {
-      '../entities': `${cdnRoot}/entities`,
-      '../particles': `${cdnRoot}/particles`,
+      // TODO(sjmiles): mapping root and dot-root allows browser-cdn-loader to replace right-hand
+      // side with fully-qualified URL when loading from worker context
+      '/': '/',
+      './': './',
       'assets': `${cdnRoot}/assets`,
-      '../assets': `${cdnRoot}/assets`,
+      // TODO(sjmiles): map must always contain (explicitly, no prefixing) a mapping for `worker-entry-cdn.js`
       'worker-entry-cdn.js': `${cdnRoot}/worker-entry-cdn.js`
     };
   },
-  buildRecipe: info => {
-    let rb = new Arcs.RecipeBuilder();
-    info.particles.forEach(pi => {
-      let p = rb.addParticle(pi.name);
-      if (pi.constrain) {
-        Object.keys(pi.constrain).forEach(k => p.connectConstraint(k, pi.constrain[k]));
-      }
+  prepareDataContext: (db, arc, manifest) => {
+    if (!db) return;
+    let highlight = 'padding: 3px 4px; background: #444; color: #bada55; font-weight: bold;';
+    // create views
+    // TODO(sjmiles): empirically, views must exist before committing Entities (?)
+    db.views && Object.keys(db.views).forEach(k => {
+      let entity = manifest.findSchemaByName(db.views[k]).entityClass();
+      arc.createView(entity.type, k);
+      console.log(`created View: %c${k}`, `${highlight} color: #ff8080;`);
     });
-    let recipe = rb.build();
-    recipe.name = info.name;
-    return recipe;
+    // commit entities
+    db.model && Object.keys(db.model).forEach(k => {
+      let entity = manifest.findSchemaByName(k).entityClass();
+      arc.commit(db.model[k].map(p => new entity(p)));
+      console.log(`committed Entity: %c${k}`, `${highlight} color: #ffff80;`);
+    });
   },
-  suggest: (arc, suggestinator, suggestions, recipes) => {
-    if (recipes) {
-      suggestinator._getSuggestions = () => recipes.map(info => utils.buildRecipe(info));
-      suggestinator
-        .suggestinate(arc)
-        .then(plans => plans.forEach(suggestions.add, suggestions))
-        ;
-    }
+  suggest: async (arc, ui, planner, recipes) => {
+    planner.init(arc, {
+      arc,
+      recipes
+    });
+    let suggestions = await planner.suggest(500);
+    suggestions.forEach((suggestion, i) => ui.add(suggestion, i));
   }
 };
 

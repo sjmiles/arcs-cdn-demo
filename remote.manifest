@@ -1,0 +1,18 @@
+# Copyright (c) 2017 Google Inc. All rights reserved.
+# This code may only be used under the BSD style license found at
+# http://polymer.github.io/LICENSE.txt
+# Code distributed by Google as part of this project is also
+# subject to an additional IP rights grant found at
+# http://polymer.github.io/PATENTS.txt
+
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/ShowProducts/ShowProducts.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/Recommend/Recommend.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/Chooser/Chooser.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/AlsoOn/AlsoOn.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/GiftList/GiftList.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/Arrivinator/Arrivinator.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/ManufacturerInfo/ManufacturerInfo.manifest'
+import 'https://sjmiles.github.io/arcs-cdn/v0.01/particles/Interests/Interests.manifest'
+
+recipe
+   ShowProducts
