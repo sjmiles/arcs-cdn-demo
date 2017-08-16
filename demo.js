@@ -12,7 +12,7 @@
       let loader = new Arcs.BrowserLoader(urlMap);
 
       //
-      // Step 3: configure application
+      // configure application
       //
       // load manifest
       let manifest = await Arcs.Manifest.load(manifestPath, loader);

@@ -5,13 +5,55 @@
 # subject to an additional IP rights grant found at
 # http://polymer.github.io/PATENTS.txt
 
-import 'artifacts/MasterDetail.manifest'
+import '../arcs/particles/ShowProducts/ShowProducts.manifest'
+import '../arcs/particles/Recommend/Recommend.manifest'
+import '../arcs/particles/Chooser/Chooser.manifest'
+import '../arcs/particles/AlsoOn/AlsoOn.manifest'
+import '../arcs/particles/GiftList/GiftList.manifest'
+import '../arcs/particles/Arrivinator/Arrivinator.manifest'
+import '../arcs/particles/ManufacturerInfo/ManufacturerInfo.manifest'
+import '../arcs/particles/Interests/Interests.manifest'
+
+import '../arcs/entities/Product.manifest'
+view Y of [Product] in 'products.json'
+
+#view X of [Person] in 'people.json'
 
 recipe
-  MasterDetail
+   ShowProducts
 
-import 'artifacts/MasterList.manifest'
-
+# See [person]'s wishlist
 recipe
-  MasterDetail
-  MasterList
+  map as wishlist #wishlist
+  ShowProducts
+    list <- wishlist
+
+# Create shortlist with [product, ...] and suggest similar products from [person]'s wish list
+recipe
+  Chooser.choices -> Recommend.recommendations
+  Chooser.resultList -> ShowProducts.list
+  Chooser.resultList -> Recommend.known
+  # TODO: AlsoOn particle requires proper view descriptions (eg "Claire's wishlist")
+  # Chooser.resultList -> AlsoOn.list
+  # Chooser.choices -> AlsoOn.choices
+  # TODO: wishlist view should have tag #giftlist - removed for now, until views with tags are properly resolved.
+  map as wishlist
+  Recommend
+    population <- wishlist
+
+# Buying for [person]'s [occasion] in [timeframe]? Product [X] arrives too late.
+recipe
+  GiftList
+  Arrivinator
+
+# Check manufacturer information for products.
+recipe
+  ManufacturerInfo
+
+# TODO: Check for newer versions, e.g. there is a new version of [product].
+# TODO: [Manufacturer] recommends [product] instead of [product] for 13 year olds.
+# TODO: See awards, e.g. [product] winning the [award].
+
+# Recommendations based on Claire's interest in field hockey.
+recipe
+  Interests

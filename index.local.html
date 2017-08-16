@@ -19,8 +19,8 @@
   <script src="//localhost/projects/arcs/arcs-cdn/v0.02/components/x-toast.js"></script>
   <script src="//localhost/projects/arcs/arcs-cdn/v0.02/components/suggestions-element.js"></script>
 
-  <!-- app-specific configuration -->
-  <script src="configure.js"></script>
+  <!-- static data -->
+  <script src="db.js"></script>
 
   <!-- boilerplate -->
   <script src="demo.js"></script>
@@ -37,11 +37,10 @@
     // setup default URL map
     let root = `http://localhost/projects/arcs/arcs`;
     let urlMap = Arcs.utils.createUrlMap(root);
-    // overrides
-    let browser = `${root}/runtime/browser/`;
+    // URL overrides
     Object.assign(urlMap, {
-      'worker-entry-cdn.js': `${browser}/build/cdn/worker-entry-cdn.js`,
-      'assets': `${browser}/assets`
+      'worker-entry-cdn.js': `${root}/runtime/browser/build/cdn/worker-entry-cdn.js`,
+      'assets': `./assets`
     });
     // start application
     demo(urlMap, './local.manifest', window['particle-container']);
