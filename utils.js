@@ -16,16 +16,17 @@ let utils = {
     let highlight = 'padding: 3px 4px; background: #444; color: #bada55; font-weight: bold;';
     // create views
     // TODO(sjmiles): empirically, views must exist before committing Entities (?)
-    db.views && Object.keys(db.views).forEach(k => {
-      let entity = manifest.findSchemaByName(db.views[k]).entityClass();
-      arc.createView(entity.type, k);
-      console.log(`created View: %c${k}`, `${highlight} color: #ff8080;`);
-    });
-    // commit entities
-    db.model && Object.keys(db.model).forEach(k => {
-      let entity = manifest.findSchemaByName(k).entityClass();
-      arc.commit(db.model[k].map(p => new entity(p)));
-      console.log(`committed Entity: %c${k}`, `${highlight} color: #ffff80;`);
+    db.views && db.views.forEach(info => {
+      let entity = manifest.findSchemaByName(info.type).entityClass();
+      let view = arc.createView(entity.type.viewOf(), info.name);
+      console.log(`created View: %c${info.name||'anon'}::${info.type}`, `${highlight} color: #ff8080;`);
+      // commit entities
+      if (info.model) {
+        info.model.forEach(r => {
+          view.store(new entity(r));
+        });
+        console.log(`committed Entities: %c${info.model.length}`, `${highlight} color: #ffff80;`);
+      }
     });
   },
   suggest: async (arc, ui, planner, recipes) => {
