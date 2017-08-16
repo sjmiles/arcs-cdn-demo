@@ -12,15 +12,18 @@
   <!-- Arcs engine -->
   <script src="//localhost/projects/arcs/arcs/runtime/browser/build/cdn/ArcsLib.js"></script>
 
-  <!-- demo helpers -->
-  <script src="utils.js"></script>
+  <!-- demo helper -->
+  <script src="//localhost/projects/arcs/arcs-cdn/v0.02/utils.js"></script>
 
   <!-- custom elements -->
-  <script src="//localhost/projects/arcs/arcs-cdn/v0.01/components/x-toast.js"></script>
-  <script src="//localhost/projects/arcs/arcs-cdn/v0.01/components/suggestions-element.js"></script>
+  <script src="//localhost/projects/arcs/arcs-cdn/v0.02/components/x-toast.js"></script>
+  <script src="//localhost/projects/arcs/arcs-cdn/v0.02/components/suggestions-element.js"></script>
 
   <!-- app-specific configuration -->
   <script src="configure.js"></script>
+
+  <!-- boilerplate -->
+  <script src="demo.js"></script>
 
 </head>
 <body>
@@ -31,44 +34,17 @@
   </demo-frame>
 
   <script>
-    (async function() {
-      //
-      // 1. URL mapping
-      //
-      // setup default map
-      let root = `http://localhost/projects/arcs/arcs`;
-      let map = utils.createUrlMap(root);
-      // overrides
-      let browser = `${root}/runtime/browser/`;
-      Object.assign(map, {
-        'worker-entry-cdn.js': `${browser}/build/cdn/worker-entry-cdn.js`,
-        'assets': `${browser}/assets`,
-        //'../assets': `${browser}/assets`,
-      });
-
-      //
-      // Step 2: create system objects
-      //
-      // renderer
-      let slotComposer = new Arcs.SlotComposer(window['particle-container'], /* affordance */ "dom");
-      // an Arc!
-      let arc = Arcs.createArc({id: 'demo', urlMap: map, slotComposer});
-
-      //
-      // Step 3: configure application
-      //
-      // load manifest
-      let manifest = await Arcs.Manifest.load('./local.manifest', arc._loader);
-      // setup the database
-      utils.prepareDataContext(window.db, arc, manifest);
-      // configure suggestions UI
-      let ui = document.querySelector('suggestions-element');
-      ui.arc = arc;
-      ui.callback = () => {};
-      // generate suggestions
-      let planner = new Arcs.Planner();
-      utils.suggest(arc, ui, planner, manifest.recipes);
-    })();
+    // setup default URL map
+    let root = `http://localhost/projects/arcs/arcs`;
+    let urlMap = Arcs.utils.createUrlMap(root);
+    // overrides
+    let browser = `${root}/runtime/browser/`;
+    Object.assign(urlMap, {
+      'worker-entry-cdn.js': `${browser}/build/cdn/worker-entry-cdn.js`,
+      'assets': `${browser}/assets`
+    });
+    // start application
+    demo(urlMap, './local.manifest', window['particle-container']);
   </script>
 
 </body>

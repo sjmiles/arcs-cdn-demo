@@ -1,5 +1,35 @@
 // ad-hoc (for now) utilities
 let utils = {
+  createArc: ({id, urlMap, slotComposer}) => {
+    // worker paths are relative to worker location, remap urls from there to here
+    let remap = utils._expandUrls(urlMap);
+    // Configure worker factory
+    let pecFactory = utils._createPecWorker.bind(null, urlMap[`worker-entry-cdn.js`], remap);
+    // create an arc
+    return new Arcs.Arc({id, pecFactory, slotComposer});
+  },
+  _expandUrls: urlMap => {
+    let remap = {};
+    Object.keys(urlMap).forEach(k => {
+      let path = urlMap[k];
+      if (path[0] === '/') {
+        path = `${location.origin}${path}`;
+      } else if (path.indexOf('//') < 0) {
+        let root = location.href.split('/').slice(0, -1).join('/');
+        //console.log(`expanding relative path [${path}] to [${root}/${path}]`);
+        path = `${root}/${path}`;
+      }
+      remap[k] = path;
+    });
+    return remap;
+  },
+  _createPecWorker: (path, map, id) => {
+    let channel = new MessageChannel();
+    //let worker = new Worker(path);
+    let worker = new Worker(URL.createObjectURL(new Blob([`importScripts("${path}");`])));
+    worker.postMessage({id: `${id}:inner`, base: map}, [channel.port1]);
+    return channel.port2;
+  },
   createUrlMap: cdnRoot => {
     return {
       // TODO(sjmiles): mapping root and dot-root allows browser-cdn-loader to replace right-hand
@@ -16,21 +46,23 @@ let utils = {
     let highlight = 'padding: 3px 4px; background: #444; color: #bada55; font-weight: bold;';
     // create views
     // TODO(sjmiles): empirically, views must exist before committing Entities (?)
-    db.views && Object.keys(db.views).forEach(k => {
-      let entity = manifest.findSchemaByName(db.views[k]).entityClass();
-      arc.createView(entity.type, k);
-      console.log(`created View: %c${k}`, `${highlight} color: #ff8080;`);
-    });
-    // commit entities
-    db.model && Object.keys(db.model).forEach(k => {
-      let entity = manifest.findSchemaByName(k).entityClass();
-      arc.commit(db.model[k].map(p => new entity(p)));
-      console.log(`committed Entity: %c${k}`, `${highlight} color: #ffff80;`);
+    db.views && db.views.forEach(info => {
+      let entity = manifest.findSchemaByName(info.type).entityClass();
+      let view = arc.createView(entity.type.viewOf(), info.name);
+      console.log(`created View: %c${info.name||'anon'}::${info.type}`, `${highlight} color: #ff8080;`);
+      // commit entities
+      if (info.model) {
+        info.model.forEach(r => {
+          view.store(new entity(r));
+        });
+        console.log(`committed Entities: %c${info.model.length}`, `${highlight} color: #ffff80;`);
+      }
     });
   },
   suggest: async (arc, ui, planner, recipes) => {
     planner.init(arc, {arc, recipes});
-    let suggestions = await planner.suggest(500);
+    let generations = [];
+    let suggestions = await planner.suggest(5000, generations);
     suggestions.forEach((suggestion, i) => ui.add(suggestion, i));
   }
 };
