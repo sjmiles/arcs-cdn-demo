@@ -29,10 +29,7 @@ let utils = {
     });
   },
   suggest: async (arc, ui, planner, recipes) => {
-    planner.init(arc, {
-      arc,
-      recipes
-    });
+    planner.init(arc, {arc, recipes});
     let suggestions = await planner.suggest(500);
     suggestions.forEach((suggestion, i) => ui.add(suggestion, i));
   }
