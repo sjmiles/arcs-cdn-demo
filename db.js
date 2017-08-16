@@ -1,7 +1,7 @@
 window.db = {
   views: [
     {
-      //name: "people",
+      name: "accounts",
       type: "Account",
       model: [
         {

@@ -12,15 +12,18 @@ defineParticle(({DomParticle}) => {
 
   let template = `
 <div master-list>
-<div style="padding: 6px;">Found <span>{{count}}</span> account(s).</div>
-<hr>
-<x-list items="{{items}}">
-  <template>
-    <div style="padding: 6px; border-bottom: 1px dotted silver;">
-      <span>{{name}}</span>: $<span>{{balance}}</span>
-    </div>
-  </template>
-</x-list>
+  <h4>Hello From MasterList</h4>
+  <!--
+  <div style="padding: 6px;">Found <span>{{count}}</span> account(s).</div>
+  <hr>
+  <x-list items="{{items}}">
+    <template>
+      <div style="padding: 6px; border-bottom: 1px dotted silver;">
+        <span>{{name}}</span>: $<span>{{balance}}</span>
+      </div>
+    </template>
+  </x-list>
+  -->
 </div>
     `.trim();
 
@@ -32,12 +35,16 @@ defineParticle(({DomParticle}) => {
       //return Boolean(props.list);
     //}
     _render(props, state) {
+      /*
       let items = props.list.map(({rawData}) => {
         return Object.assign({}, rawData);
       });
       return {
         items,
         count: items.length
+      };
+      */
+      return {
       };
     }
   };
