@@ -7,16 +7,24 @@ window.db = {
         {
           name: "My Pocket",
           balance: "3.35"
+        },
+        {
+          name: "Gal's Bank",
+          balance: "122.33"
+        },
+        {
+          name: "Miskatonic Credit Union",
+          balance: "999.99"
         }
       ]
-    },
+    }/*,
     {
       name: "selected",
       type: "Account",
       model: [{
-        name: "Nothing",
+        name: "",
         balance: "0"
       }]
-    }
+    }*/
   ]
 };

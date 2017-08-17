@@ -12,4 +12,8 @@ particle MasterDetail in 'MasterDetail.js'
   MasterDetail(in [Account] list, in [Account] selected)
   consume root
     provide master
+      view list
+    provide detail
+      view selected
+
   description `Show ${list} with details`

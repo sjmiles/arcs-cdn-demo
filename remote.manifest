@@ -6,10 +6,6 @@
 # http://polymer.github.io/PATENTS.txt
 
 import 'artifacts/MasterDetail.manifest'
-
-recipe
-  MasterDetail
-
 import 'artifacts/MasterList.manifest'
 
 recipe

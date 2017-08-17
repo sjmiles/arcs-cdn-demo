@@ -8,7 +8,7 @@
 
 import 'Account.manifest'
 
-particle MasterList in 'MasterList.js'
-  MasterList(in [Account] list, out [Account] selected)
+particle Master in 'Master.js'
+  Master(in [Account] list, in [Account] selected)
   consume master
-  description `Show ${list} (selectable)`
+  description `Show ${list}`

@@ -1,3 +1,4 @@
+# @license
 # Copyright (c) 2017 Google Inc. All rights reserved.
 # This code may only be used under the BSD style license found at
 # http://polymer.github.io/LICENSE.txt
@@ -5,11 +6,9 @@
 # subject to an additional IP rights grant found at
 # http://polymer.github.io/PATENTS.txt
 
-import 'artifacts/MasterDetail.manifest'
-import 'artifacts/Master.manifest'
-import 'artifacts/Detail.manifest'
+import 'Account.manifest'
 
-recipe
-  MasterDetail.list -> Master.list
-  Master.selected -> MasterDetail.selected
-  Detail.selected -> Master.selected
+particle Detail in 'Detail.js'
+  Detail(in [Account] selected)
+  consume detail
+  description `Account details`
