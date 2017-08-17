@@ -6,8 +6,10 @@
 # http://polymer.github.io/PATENTS.txt
 
 import 'artifacts/MasterDetail.manifest'
-import 'artifacts/MasterList.manifest'
+import 'artifacts/Master.manifest'
+import 'artifacts/Detail.manifest'
 
 recipe
-  MasterDetail
-  MasterList
+  MasterDetail.list -> Master.list
+  Master.selected -> MasterDetail.selected
+  Detail.selected -> Master.selected
