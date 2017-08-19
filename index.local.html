@@ -10,14 +10,14 @@
   <link rel="stylesheet" href="index.css">
 
   <!-- Arcs engine -->
-  <script src="//localhost/projects/arcs/arcs/runtime/browser/build/cdn/ArcsLib.js"></script>
+  <script src="//localhost/projects/arcs/arcs-cdn/v0.03/ArcsLib.js"></script>
 
   <!-- demo helper -->
-  <script src="//localhost/projects/arcs/arcs-cdn/v0.02/utils.js"></script>
+  <script src="//localhost/projects/arcs/arcs-cdn/v0.03/utils.js"></script>
 
   <!-- custom elements -->
-  <script src="//localhost/projects/arcs/arcs-cdn/v0.02/components/x-toast.js"></script>
-  <script src="//localhost/projects/arcs/arcs-cdn/v0.02/components/suggestions-element.js"></script>
+  <script src="//localhost/projects/arcs/arcs-cdn/v0.03/components/x-toast.js"></script>
+  <script src="//localhost/projects/arcs/arcs-cdn/v0.03/components/suggestions-element.js"></script>
 
   <!-- boilerplate -->
   <script src="demo.js"></script>
@@ -28,8 +28,8 @@
 </head>
 <body>
 
-  <!-- optional tools -->
-  <link rel="import" href="//localhost/projects/arcs/arcs-cdn/v0.02/components/strategy-explorer.html">
+  <!-- optional tools (must be in body) -->
+  <link rel="import" href="//localhost/projects/arcs/arcs-cdn/v0.03/components/strategy-explorer.html">
 
   <demo-frame>
     <div id="particle-container"></div>
@@ -38,13 +38,12 @@
 
   <script>
     // setup default URL map
-    let root = `http://localhost/projects/arcs/arcs`;
+    let root = `http://localhost/projects/arcs/arcs-cdn/v0.03`;
     let urlMap = Arcs.utils.createUrlMap(root);
     // overrides
-    let browser = `${root}/runtime/browser/`;
     Object.assign(urlMap, {
-      'worker-entry-cdn.js': `${browser}/build/cdn/worker-entry-cdn.js`,
-      'assets': `${browser}/assets`
+      'worker-entry-cdn.js': `${root}/worker-entry-cdn.js`,
+      'assets': `${root}/assets`
     });
     // start application
     demo(urlMap, './local.manifest', window['particle-container']);
